@@ -216,5 +216,5 @@ export const messages = [
 
 export const verseOfTheDay = () => {
   const day = Math.floor(Date.now() / 86400000);
-  return verses[day % verses.length];
+  return verses[day % verses.length] ?? verses[0]!;
 };

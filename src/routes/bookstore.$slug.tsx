@@ -29,7 +29,7 @@ export const Route = createFileRoute("/bookstore/$slug")({
 function BookPage() {
   const b = Route.useLoaderData();
   const { add } = useCart();
-  const [format, setFormat] = useState(b.formats[0]);
+  const [format, setFormat] = useState<"EPUB" | "PDF">(b.formats[0] ?? "EPUB");
   const related = books.filter((x) => x.slug !== b.slug && x.category === b.category).concat(books.filter((x) => x.slug !== b.slug && x.category !== b.category)).slice(0, 3);
 
   return (
