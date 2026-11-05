@@ -10,33 +10,193 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as CartRouteImport } from './routes/cart'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as MessagesRouteImport } from './routes/messages'
+import { Route as PoliciesRouteImport } from './routes/policies'
+import { Route as PrayerRequestRouteImport } from './routes/prayer-request'
+import { Route as VersesRouteImport } from './routes/verses'
+import { Route as VideosRouteImport } from './routes/videos'
+import { Route as BookstoreIndexRouteImport } from './routes/bookstore.index'
+import { Route as BookstoreSlugRouteImport } from './routes/bookstore.$slug'
+import { Route as PrayersIndexRouteImport } from './routes/prayers.index'
+import { Route as PrayersSlugRouteImport } from './routes/prayers.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CartRoute = CartRouteImport.update({
+  id: '/cart',
+  path: '/cart',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MessagesRoute = MessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PoliciesRoute = PoliciesRouteImport.update({
+  id: '/policies',
+  path: '/policies',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrayerRequestRoute = PrayerRequestRouteImport.update({
+  id: '/prayer-request',
+  path: '/prayer-request',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VersesRoute = VersesRouteImport.update({
+  id: '/verses',
+  path: '/verses',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VideosRoute = VideosRouteImport.update({
+  id: '/videos',
+  path: '/videos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookstoreIndexRoute = BookstoreIndexRouteImport.update({
+  id: '/bookstore/',
+  path: '/bookstore/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookstoreSlugRoute = BookstoreSlugRouteImport.update({
+  id: '/bookstore/$slug',
+  path: '/bookstore/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrayersIndexRoute = PrayersIndexRouteImport.update({
+  id: '/prayers/',
+  path: '/prayers/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrayersSlugRoute = PrayersSlugRouteImport.update({
+  id: '/prayers/$slug',
+  path: '/prayers/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/cart': typeof CartRoute
+  '/contact': typeof ContactRoute
+  '/messages': typeof MessagesRoute
+  '/policies': typeof PoliciesRoute
+  '/prayer-request': typeof PrayerRequestRoute
+  '/verses': typeof VersesRoute
+  '/videos': typeof VideosRoute
+  '/bookstore/$slug': typeof BookstoreSlugRoute
+  '/prayers/$slug': typeof PrayersSlugRoute
+  '/bookstore/': typeof BookstoreIndexRoute
+  '/prayers/': typeof PrayersIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/cart': typeof CartRoute
+  '/contact': typeof ContactRoute
+  '/messages': typeof MessagesRoute
+  '/policies': typeof PoliciesRoute
+  '/prayer-request': typeof PrayerRequestRoute
+  '/verses': typeof VersesRoute
+  '/videos': typeof VideosRoute
+  '/bookstore/$slug': typeof BookstoreSlugRoute
+  '/prayers/$slug': typeof PrayersSlugRoute
+  '/bookstore': typeof BookstoreIndexRoute
+  '/prayers': typeof PrayersIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/cart': typeof CartRoute
+  '/contact': typeof ContactRoute
+  '/messages': typeof MessagesRoute
+  '/policies': typeof PoliciesRoute
+  '/prayer-request': typeof PrayerRequestRoute
+  '/verses': typeof VersesRoute
+  '/videos': typeof VideosRoute
+  '/bookstore/$slug': typeof BookstoreSlugRoute
+  '/prayers/$slug': typeof PrayersSlugRoute
+  '/bookstore/': typeof BookstoreIndexRoute
+  '/prayers/': typeof PrayersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/cart'
+    | '/contact'
+    | '/messages'
+    | '/policies'
+    | '/prayer-request'
+    | '/verses'
+    | '/videos'
+    | '/bookstore/$slug'
+    | '/prayers/$slug'
+    | '/bookstore/'
+    | '/prayers/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/cart'
+    | '/contact'
+    | '/messages'
+    | '/policies'
+    | '/prayer-request'
+    | '/verses'
+    | '/videos'
+    | '/bookstore/$slug'
+    | '/prayers/$slug'
+    | '/bookstore'
+    | '/prayers'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/cart'
+    | '/contact'
+    | '/messages'
+    | '/policies'
+    | '/prayer-request'
+    | '/verses'
+    | '/videos'
+    | '/bookstore/$slug'
+    | '/prayers/$slug'
+    | '/bookstore/'
+    | '/prayers/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  CartRoute: typeof CartRoute
+  ContactRoute: typeof ContactRoute
+  MessagesRoute: typeof MessagesRoute
+  PoliciesRoute: typeof PoliciesRoute
+  PrayerRequestRoute: typeof PrayerRequestRoute
+  VersesRoute: typeof VersesRoute
+  VideosRoute: typeof VideosRoute
+  BookstoreSlugRoute: typeof BookstoreSlugRoute
+  PrayersSlugRoute: typeof PrayersSlugRoute
+  BookstoreIndexRoute: typeof BookstoreIndexRoute
+  PrayersIndexRoute: typeof PrayersIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +208,107 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cart': {
+      id: '/cart'
+      path: '/cart'
+      fullPath: '/cart'
+      preLoaderRoute: typeof CartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/messages': {
+      id: '/messages'
+      path: '/messages'
+      fullPath: '/messages'
+      preLoaderRoute: typeof MessagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/policies': {
+      id: '/policies'
+      path: '/policies'
+      fullPath: '/policies'
+      preLoaderRoute: typeof PoliciesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/prayer-request': {
+      id: '/prayer-request'
+      path: '/prayer-request'
+      fullPath: '/prayer-request'
+      preLoaderRoute: typeof PrayerRequestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/verses': {
+      id: '/verses'
+      path: '/verses'
+      fullPath: '/verses'
+      preLoaderRoute: typeof VersesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/videos': {
+      id: '/videos'
+      path: '/videos'
+      fullPath: '/videos'
+      preLoaderRoute: typeof VideosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bookstore/': {
+      id: '/bookstore/'
+      path: '/bookstore'
+      fullPath: '/bookstore/'
+      preLoaderRoute: typeof BookstoreIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bookstore/$slug': {
+      id: '/bookstore/$slug'
+      path: '/bookstore/$slug'
+      fullPath: '/bookstore/$slug'
+      preLoaderRoute: typeof BookstoreSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/prayers/': {
+      id: '/prayers/'
+      path: '/prayers'
+      fullPath: '/prayers/'
+      preLoaderRoute: typeof PrayersIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/prayers/$slug': {
+      id: '/prayers/$slug'
+      path: '/prayers/$slug'
+      fullPath: '/prayers/$slug'
+      preLoaderRoute: typeof PrayersSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  CartRoute: CartRoute,
+  ContactRoute: ContactRoute,
+  MessagesRoute: MessagesRoute,
+  PoliciesRoute: PoliciesRoute,
+  PrayerRequestRoute: PrayerRequestRoute,
+  VersesRoute: VersesRoute,
+  VideosRoute: VideosRoute,
+  BookstoreSlugRoute: BookstoreSlugRoute,
+  PrayersSlugRoute: PrayersSlugRoute,
+  BookstoreIndexRoute: BookstoreIndexRoute,
+  PrayersIndexRoute: PrayersIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
