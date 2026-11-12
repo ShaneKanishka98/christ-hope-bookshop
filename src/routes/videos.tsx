@@ -5,6 +5,20 @@ import { YOUTUBE_URL, messages, shortVideos as shorts, miracleVideo } from "@/li
 import { PageHero, Reveal, youtubeBtn } from "@/components/site/ui";
 import { SITE_URL, jsonLdScript } from "@/lib/seo";
 
+// Real titles and upload dates from the CHRIST HOPE Media YouTube channel (needed for Google video markup).
+const videoMeta = [
+  { id: "mZanUmYXBy8", date: "2026-11-10T05:47:17-08:00", title: "Jesus Walks on Water | A Powerful Miracle of Faith | Bible Story" },
+  { id: "U58tDSuelHE", date: "2026-11-02T04:46:32-08:00", title: "Don't Worry About Tomorrow, Trust God | Christian Motivation" },
+  { id: "w2JsVewVcj4", date: "2026-11-03T04:57:38-08:00", title: "Don't Be Afraid of Tomorrow, Trust God | Jesus Message" },
+  { id: "Kr5qGRqXaDA", date: "2026-11-04T05:06:39-08:00", title: "Trust His timing. The best is yet to come." },
+  { id: "oQWl77JqwHI", date: "2026-11-05T04:52:27-08:00", title: "Trust His Timing" },
+  { id: "1n2LkeOYmQU", date: "2026-11-06T05:03:20-08:00", title: "Trust His timing." },
+  { id: "qAgtKXREqSk", date: "2026-11-07T04:55:05-08:00", title: "Your journey is unique. Trust God's plan!" },
+  { id: "n3xO-mLJNyE", date: "2026-11-08T05:15:14-08:00", title: "Your blessings are coming. Keep faith!" },
+  { id: "y8Dvjhz5k7w", date: "2026-11-10T04:57:27-08:00", title: "Your Darkest Days, God's Greatest Miracles" },
+  { id: "mz6TGSxWIqs", date: "2026-11-11T04:56:40-08:00", title: "Don't Give Up! Jesus Is Always With You" },
+];
+
 export const Route = createFileRoute("/videos")({
   head: () => ({
     meta: [
@@ -15,13 +29,14 @@ export const Route = createFileRoute("/videos")({
     ],
     scripts: [jsonLdScript({
       "@context": "https://schema.org",
-      "@graph": [miracleVideo, ...shorts].map((id, i) => ({
+      "@graph": videoMeta.map((v) => ({
         "@type": "VideoObject",
-        name: i === 0 ? "Christian Miracles — CHRIST HOPE Media" : `Daily Encouragement ${i} — CHRIST HOPE Media`,
-        description: "Christian prayer, encouragement and the message of Jesus from the CHRIST HOPE Media YouTube channel.",
-        thumbnailUrl: `https://i.ytimg.com/vi/${id}/hqdefault.jpg`,
-        embedUrl: `https://www.youtube.com/embed/${id}`,
-        contentUrl: `https://www.youtube.com/watch?v=${id}`,
+        name: v.title,
+        description: `${v.title} — Christian prayer, encouragement and the message of Jesus from the CHRIST HOPE Media YouTube channel.`,
+        thumbnailUrl: `https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`,
+        embedUrl: `https://www.youtube.com/embed/${v.id}`,
+        contentUrl: `https://www.youtube.com/watch?v=${v.id}`,
+        uploadDate: v.date,
         publisher: { "@id": `${SITE_URL}/#organization` },
       })),
     })],
