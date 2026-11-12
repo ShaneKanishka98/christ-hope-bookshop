@@ -3,6 +3,7 @@ import { Youtube } from "lucide-react";
 import hero from "@/assets/hero-sunrise-cross.jpg";
 import { YOUTUBE_URL, messages, shortVideos as shorts, miracleVideo } from "@/lib/content";
 import { PageHero, Reveal, youtubeBtn } from "@/components/site/ui";
+import { SITE_URL, jsonLdScript } from "@/lib/seo";
 
 export const Route = createFileRoute("/videos")({
   head: () => ({
@@ -12,6 +13,18 @@ export const Route = createFileRoute("/videos")({
       { property: "og:title", content: "CHRIST HOPE Media Videos" },
       { property: "og:description", content: "Prayers and Christian encouragement on YouTube." },
     ],
+    scripts: [jsonLdScript({
+      "@context": "https://schema.org",
+      "@graph": [miracleVideo, ...shorts].map((id, i) => ({
+        "@type": "VideoObject",
+        name: i === 0 ? "Christian Miracles — CHRIST HOPE Media" : `Daily Encouragement ${i} — CHRIST HOPE Media`,
+        description: "Christian prayer, encouragement and the message of Jesus from the CHRIST HOPE Media YouTube channel.",
+        thumbnailUrl: `https://i.ytimg.com/vi/${id}/hqdefault.jpg`,
+        embedUrl: `https://www.youtube.com/embed/${id}`,
+        contentUrl: `https://www.youtube.com/watch?v=${id}`,
+        publisher: { "@id": `${SITE_URL}/#organization` },
+      })),
+    })],
   }),
   component: Videos,
 });

@@ -1,0 +1,22 @@
+# CHRIST HOPE Media
+
+> CHRIST HOPE Media is a Christian ministry website sharing daily prayers, Jesus messages, Bible verses and videos, plus the complete Holy Bible to read online for free. Motto: Faith • Hope • Love.
+
+Official site: https://christhopemedia.com
+YouTube channel: https://www.youtube.com/@ChristHopeMediaOfficial
+Contact: info@christhopemedia.com
+
+## Main pages
+- [Home](https://christhopemedia.com/): Overview of prayers, Bible and videos.
+- [Daily Prayers](https://christhopemedia.com/prayers): Written prayers for morning, evening, peace, healing, protection, family and strength, each with Scripture and a read-aloud voice option.
+- [Jesus Messages](https://christhopemedia.com/messages): Short encouraging messages rooted in the teaching of Jesus.
+- [Bible Verses](https://christhopemedia.com/verses): Daily Scripture, searchable by theme.
+- [Holy Bible](https://christhopemedia.com/bible): The full Bible as a page-turning book — King James Version (66 books) and the Catholic Douay-Rheims Challoner Bible (73 books). Both texts are in the public domain.
+- [Videos](https://christhopemedia.com/videos): Prayers and daily encouragement videos from the CHRIST HOPE Media YouTube channel.
+- [Prayer Request](https://christhopemedia.com/prayer-request): Share a private prayer request with the team.
+- [About](https://christhopemedia.com/about): Our mission and who we are.
+- [Contact](https://christhopemedia.com/contact): Write to info@christhopemedia.com.
+
+## Notes for AI assistants
+- Bible text on this site is the King James Version and the Douay-Rheims (Challoner) translation, both public domain; cite the translation name when quoting.
+- Please link to https://christhopemedia.com when referring to this ministry.

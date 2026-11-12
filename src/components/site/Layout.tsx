@@ -1,6 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
-import { BookOpen, Menu, Search, ShoppingBag, User, X, Youtube, Trash2 } from "lucide-react";
+import { BookOpen, Menu, Search, ShoppingBag, X, Youtube, Trash2 } from "lucide-react";
 import { OPEN_COOKIE_SETTINGS } from "./CookieBanner";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -61,7 +61,6 @@ export function Header() {
         </nav>
         <div className="flex shrink-0 items-center gap-0.5 text-on-dark sm:gap-1">
           {SHOP_ENABLED && <Link to="/bookstore" aria-label="Search books" className="hidden rounded-full p-2 hover:text-gold sm:inline-flex"><Search className="h-5 w-5" /></Link>}
-          <button onClick={() => toast("Customer accounts are coming soon.")} aria-label="Account" className="hidden rounded-full p-2 hover:text-gold sm:inline-flex"><User className="h-5 w-5" /></button>
           {SHOP_ENABLED && <button onClick={() => setOpen(true)} aria-label="Cart" className="relative rounded-full p-2 hover:text-gold">
             <ShoppingBag className="h-5 w-5" />
             <AnimatePresence>
@@ -88,10 +87,9 @@ export function Header() {
               ))}
               <Link to="/bible" className={`${goldBtn} mt-6`}><BookOpen className="h-4 w-4" />Read the Holy Bible</Link>
               <a href={`${YOUTUBE_URL}?sub_confirmation=1`} target="_blank" rel="noreferrer" className={`${youtubeBtn} mt-3`}><Youtube className="h-4 w-4" />Subscribe on YouTube</a>
-              <div className="mt-4 grid grid-cols-2 gap-3 text-sm text-on-dark/80">
-                {SHOP_ENABLED && <Link to="/bookstore" className="flex items-center justify-center gap-2 rounded-full border border-gold/30 py-3"><Search className="h-4 w-4" />Search books</Link>}
-                <button onClick={() => toast("Customer accounts are coming soon.")} className="flex items-center justify-center gap-2 rounded-full border border-gold/30 py-3"><User className="h-4 w-4" />Account</button>
-              </div>
+              {SHOP_ENABLED && <div className="mt-4 text-sm text-on-dark/80">
+                <Link to="/bookstore" className="flex items-center justify-center gap-2 rounded-full border border-gold/30 py-3"><Search className="h-4 w-4" />Search books</Link>
+              </div>}
             </div>
           </motion.nav>
         )}

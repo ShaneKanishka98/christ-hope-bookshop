@@ -11,8 +11,8 @@ import { ShortsCarousel } from "@/components/site/ShortsCarousel";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "CHRIST HOPE — Faith • Hope • Love | Prayers, Scripture & Christian Books" },
-      { name: "description", content: "Discover daily prayers, inspiring Jesus messages, Scripture and beautiful Christian prayer books from CHRIST HOPE." },
+      { title: "CHRIST HOPE Media — Daily Prayers, Jesus Messages & the Holy Bible" },
+      { name: "description", content: "Pray with us every day. Daily Christian prayers with voice, Jesus messages, Bible verses, YouTube videos and the complete Holy Bible (KJV and Catholic Douay-Rheims) to read online for free." },
       { property: "og:title", content: "CHRIST HOPE — Faith • Hope • Love" },
       { property: "og:description", content: "Where faith finds strength, hope comes alive, and love leads the way." },
     ],
@@ -197,8 +197,8 @@ function Home() {
       <section className="relative overflow-hidden bg-night py-16 text-on-dark md:py-24">
         <div className="pointer-events-none absolute -right-20 top-0 h-96 w-96 rounded-full bg-glow opacity-40" />
         <div className="relative mx-auto flex max-w-6xl flex-col items-center gap-10 px-6 md:flex-row md:gap-12">
-          <div className="flex -space-x-12 sm:-space-x-10">
-            {books.slice(4, 7).map((b) => <BookCover key={b.slug} book={b} size="sm" />)}
+          <div className="grid w-full max-w-sm grid-cols-3 gap-3 sm:max-w-md sm:gap-5 md:max-w-lg">
+            {books.slice(4, 7).map((b) => <BookCover key={b.slug} book={b} size="fluid" />)}
           </div>
           <Reveal className="flex-1 text-center md:text-left">
             <p className="eyebrow text-gold">Christ Hope Media</p>

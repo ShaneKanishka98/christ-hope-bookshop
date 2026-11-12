@@ -17,6 +17,7 @@ import { Header, Footer, CartDrawer } from "@/components/site/Layout";
 import { CtaBand } from "@/components/site/CtaBand";
 import { CookieBanner } from "@/components/site/CookieBanner";
 import { Toaster } from "@/components/ui/sonner";
+import { OG_IMAGE, SITE_DESCRIPTION, SITE_NAME, canonicalUrl, jsonLdScript, siteJsonLd } from "@/lib/seo";
 
 function NotFoundComponent() {
   return (
@@ -76,17 +77,29 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  head: () => ({
+  head: ({ matches }) => {
+    // The root match is always "/", so take the path of the deepest (actual) page.
+    const url = canonicalUrl(matches[matches.length - 1]?.pathname ?? "/");
+    return {
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "CHRIST HOPE — Faith • Hope • Love" },
-      { name: "description", content: "Daily prayers, Jesus messages, Scripture and Christian books from CHRIST HOPE." },
+      { name: "description", content: SITE_DESCRIPTION },
       { name: "author", content: "CHRIST HOPE" },
+      { name: "robots", content: "index, follow, max-image-preview:large, max-snippet:-1" },
+      { name: "theme-color", content: "#061326" },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: SITE_NAME },
+      { property: "og:locale", content: "en_US" },
+      { property: "og:url", content: url },
+      { property: "og:image", content: OG_IMAGE },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: OG_IMAGE },
     ],
+    scripts: [jsonLdScript(siteJsonLd)],
     links: [
+      { rel: "canonical", href: url },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Manrope:wght@400;500;600;700&display=swap" },
@@ -96,7 +109,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
-  }),
+    };
+  },
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,

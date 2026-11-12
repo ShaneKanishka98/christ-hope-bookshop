@@ -2,6 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import prayerImg from "@/assets/prayer-light.jpg";
 import { getBook, getPrayer, SHOP_ENABLED, prayerImage } from "@/lib/content";
 import { ListenButton } from "@/components/site/Listen";
+import { SITE_URL, jsonLdScript } from "@/lib/seo";
 import { BookCard, CopyShare, PageHero, Reveal } from "@/components/site/ui";
 
 export const Route = createFileRoute("/prayers/$slug")({
@@ -17,8 +18,25 @@ export const Route = createFileRoute("/prayers/$slug")({
           { name: "description", content: loaderData.text.slice(0, 155) },
           { property: "og:title", content: loaderData.title },
           { property: "og:description", content: loaderData.text.slice(0, 155) },
+          { property: "og:type", content: "article" },
+          { property: "og:image", content: `${SITE_URL}${prayerImage(loaderData.slug)}` },
+          { name: "twitter:image", content: `${SITE_URL}${prayerImage(loaderData.slug)}` },
         ]
       : [{ title: "Prayer not found" }, { name: "robots", content: "noindex" }],
+    scripts: loaderData
+      ? [jsonLdScript({
+          "@context": "https://schema.org",
+          "@type": "Article",
+          headline: loaderData.title,
+          description: loaderData.text.slice(0, 155),
+          articleSection: loaderData.category,
+          image: `${SITE_URL}${prayerImage(loaderData.slug)}`,
+          mainEntityOfPage: `${SITE_URL}/prayers/${loaderData.slug}`,
+          inLanguage: "en",
+          author: { "@id": `${SITE_URL}/#organization` },
+          publisher: { "@id": `${SITE_URL}/#organization` },
+        })]
+      : [],
   }),
   component: PrayerPage,
 });
