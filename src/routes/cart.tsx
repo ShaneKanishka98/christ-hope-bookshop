@@ -26,7 +26,7 @@ function Cart() {
   return (
     <section className="min-h-screen bg-background pb-24 pt-36">
       <div className="mx-auto max-w-5xl px-6">
-        <h1 className="text-5xl">Your Bag</h1>
+        <h1 className="text-4xl sm:text-5xl">Your Bag</h1>
         {lines.length === 0 ? (
           <div className="mt-12 text-center">
             <p className="text-muted-foreground">Your bag is empty.</p>

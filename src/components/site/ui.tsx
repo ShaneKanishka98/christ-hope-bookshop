@@ -24,14 +24,15 @@ export function Reveal({ children, delay = 0, className }: { children: ReactNode
 
 export function PageHero({ eyebrow, title, text, image }: { eyebrow: string; title: string; text?: string; image?: string }) {
   return (
-    <section className="relative overflow-hidden bg-night pb-20 pt-40 text-on-dark">
+    <section className="relative overflow-hidden bg-night pb-14 pt-32 text-on-dark md:pb-20 md:pt-40">
       {image && <img src={image} alt="" className="absolute inset-0 h-full w-full object-cover opacity-30" />}
       <div className="absolute inset-0 bg-gradient-to-b from-midnight/40 to-midnight" />
       <div className="relative mx-auto max-w-4xl px-6 text-center">
         <Reveal>
           <p className="eyebrow text-gold">{eyebrow}</p>
-          <h1 className="mt-5 text-5xl md:text-7xl">{title}</h1>
-          {text && <p className="mx-auto mt-6 max-w-2xl text-lg text-on-dark/75">{text}</p>}
+          <h1 className="mt-5 text-4xl sm:text-5xl md:text-7xl">{title}</h1>
+          <div className="mx-auto mt-6 flex items-center justify-center gap-3 text-gold"><span className="h-px w-10 bg-gold/60" /><span className="text-xs">✦</span><span className="h-px w-10 bg-gold/60" /></div>
+          {text && <p className="mx-auto mt-6 max-w-2xl text-base text-on-dark/75 md:text-lg">{text}</p>}
         </Reveal>
       </div>
     </section>
@@ -42,7 +43,7 @@ export function SectionTitle({ eyebrow, title, text, light }: { eyebrow: string;
   return (
     <Reveal className="mx-auto max-w-2xl text-center">
       <p className={`eyebrow ${light ? "text-gold" : "text-royal"}`}>{eyebrow}</p>
-      <h2 className={`mt-4 text-4xl md:text-5xl ${light ? "text-on-dark" : "text-foreground"}`}>{title}</h2>
+      <h2 className={`mt-4 text-3xl sm:text-4xl md:text-5xl ${light ? "text-on-dark" : "text-foreground"}`}>{title}</h2>
       <div className="mx-auto mt-5 h-px w-16 bg-gold" />
       {text && <p className={`mt-5 ${light ? "text-on-dark/70" : "text-muted-foreground"}`}>{text}</p>}
     </Reveal>
@@ -62,9 +63,9 @@ export function BookCard({ book }: { book: Book }) {
     <Link
       to="/bookstore/$slug"
       params={{ slug: book.slug }}
-      className="group flex flex-col items-center rounded-lg bg-card p-8 text-center transition-shadow hover:shadow-gold"
+      className="group flex h-full flex-col items-center rounded-xl border border-border/70 bg-card p-6 text-center shadow-card transition-all duration-500 hover:-translate-y-1.5 hover:border-gold/60 hover:shadow-gold sm:p-8"
     >
-      <div className="flex h-72 items-center">
+      <div className="flex h-64 items-center sm:h-72">
         <BookCover book={book} />
       </div>
       <UnpublishedBadge />
@@ -101,6 +102,8 @@ export function CopyShare({ text, title }: { text: string; title: string }) {
   );
 }
 
-export const goldBtn = "inline-flex items-center justify-center gap-2 rounded-full bg-gold-gradient px-7 py-3.5 text-xs font-semibold uppercase tracking-[0.2em] text-midnight shadow-gold transition-transform hover:-translate-y-0.5";
+export const goldBtn = "inline-flex items-center justify-center gap-2 rounded-full bg-gold-gradient px-7 py-3.5 text-center text-xs font-semibold uppercase tracking-[0.2em] text-midnight shadow-gold transition-transform hover:-translate-y-0.5";
 export const ghostBtn = "inline-flex items-center justify-center gap-2 rounded-full border border-gold/60 px-7 py-3.5 text-xs font-semibold uppercase tracking-[0.2em] text-on-dark transition-colors hover:bg-gold/10";
 export const navyBtn = "inline-flex items-center justify-center gap-2 rounded-full bg-primary px-7 py-3.5 text-xs font-semibold uppercase tracking-[0.2em] text-primary-foreground transition-colors hover:bg-royal";
+
+export const youtubeBtn = "inline-flex items-center justify-center gap-2 rounded-full bg-youtube px-7 py-3.5 text-center text-xs font-semibold uppercase tracking-[0.2em] text-youtube-foreground shadow-youtube transition-all hover:-translate-y-0.5 hover:bg-youtube-dark";

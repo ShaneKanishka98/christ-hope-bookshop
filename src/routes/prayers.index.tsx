@@ -19,7 +19,7 @@ function Prayers() {
   return (
     <>
       <PageHero eyebrow="Daily Prayers" title="Pray With Us Every Day" text="Heartfelt prayers, each paired with Scripture, for every moment of life." image={prayerImg} />
-      <section className="py-24">
+      <section className="py-16 md:py-24">
         <div className="mx-auto grid max-w-6xl gap-6 px-6 md:grid-cols-2">
           {prayers.map((p, i) => (
             <Reveal key={p.slug} delay={(i % 2) * 0.08}>

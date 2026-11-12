@@ -20,7 +20,7 @@ function Messages() {
   return (
     <>
       <PageHero eyebrow="Jesus Messages" title="Messages That Touch the Heart" image={hero} />
-      <section className="py-24">
+      <section className="py-16 md:py-24">
         <div className="mx-auto grid max-w-6xl gap-8 px-6 md:grid-cols-2">
           {messages.map((m, i) => (
             <Reveal key={m.title} delay={(i % 2) * 0.08}>

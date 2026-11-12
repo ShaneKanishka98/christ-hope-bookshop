@@ -6,7 +6,8 @@ import { toast } from "sonner";
 import { useCart, money } from "@/lib/cart";
 import { getBook, YOUTUBE_URL } from "@/lib/content";
 import { BookCover } from "./BookCover";
-import { goldBtn } from "./ui";
+import { goldBtn, youtubeBtn } from "./ui";
+import logo from "@/assets/christ-hope-logo.jpg.asset.json";
 
 const nav = [
   { to: "/", label: "Home" },
@@ -19,13 +20,13 @@ const nav = [
   { to: "/contact", label: "Contact" },
 ] as const;
 
-function Logo() {
+function Logo({ large = false }: { large?: boolean }) {
   return (
-    <Link to="/" className="flex items-center gap-3">
-      <span className="flex h-10 w-10 items-center justify-center rounded-full border border-gold/70 font-display text-lg text-gold">✝</span>
-      <span className="leading-none">
-        <span className="block font-display text-xl tracking-[0.18em] text-on-dark">CHRIST HOPE</span>
-        <span className="block text-[0.55rem] tracking-[0.35em] text-gold">FAITH • HOPE • LOVE</span>
+    <Link to="/" className="flex min-w-0 items-center gap-3" aria-label="CHRIST HOPE home">
+      <img src={logo.url} alt="CHRIST HOPE logo" width={176} height={176} className={`${large ? "h-16 w-16" : "h-10 w-10 sm:h-12 sm:w-12"} shrink-0 rounded-full gold-ring`} />
+      <span className="min-w-0 leading-none">
+        <span className="block truncate font-display text-[1.05rem] tracking-[0.1em] text-on-dark sm:text-xl sm:tracking-[0.16em]">CHRIST HOPE</span>
+        <span className="mt-1 block truncate text-[0.5rem] tracking-[0.22em] text-gold sm:text-[0.55rem] sm:tracking-[0.35em]">FAITH • HOPE • LOVE</span>
       </span>
     </Link>
   );
@@ -46,8 +47,8 @@ export function Header() {
   useEffect(() => setMenu(false), [path]);
 
   return (
-    <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${scrolled || menu ? "glass-nav py-3" : "py-6"}`}>
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-6">
+    <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${scrolled || menu ? "glass-nav py-2.5" : "py-4 md:py-6"}`}>
+      <div className="mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 sm:px-6 xl:flex xl:justify-between xl:gap-6">
         <Logo />
         <nav className="hidden items-center gap-6 xl:flex">
           {nav.map((n) => (
@@ -56,9 +57,9 @@ export function Header() {
             </Link>
           ))}
         </nav>
-        <div className="flex items-center gap-1 text-on-dark">
-          <Link to="/bookstore" aria-label="Search books" className="rounded-full p-2 hover:text-gold"><Search className="h-5 w-5" /></Link>
-          <button onClick={() => toast("Customer accounts are coming soon.")} aria-label="Account" className="rounded-full p-2 hover:text-gold"><User className="h-5 w-5" /></button>
+        <div className="flex shrink-0 items-center gap-0.5 text-on-dark sm:gap-1">
+          <Link to="/bookstore" aria-label="Search books" className="hidden rounded-full p-2 hover:text-gold sm:inline-flex"><Search className="h-5 w-5" /></Link>
+          <button onClick={() => toast("Customer accounts are coming soon.")} aria-label="Account" className="hidden rounded-full p-2 hover:text-gold sm:inline-flex"><User className="h-5 w-5" /></button>
           <button onClick={() => setOpen(true)} aria-label="Cart" className="relative rounded-full p-2 hover:text-gold">
             <ShoppingBag className="h-5 w-5" />
             <AnimatePresence>
@@ -69,20 +70,24 @@ export function Header() {
               )}
             </AnimatePresence>
           </button>
-          <a href={YOUTUBE_URL} target="_blank" rel="noreferrer" className={`${goldBtn} ml-3 hidden !px-5 !py-2.5 md:inline-flex`}>Subscribe</a>
+          <a href={`${YOUTUBE_URL}?sub_confirmation=1`} target="_blank" rel="noreferrer" aria-label="Subscribe on YouTube" className={`${youtubeBtn} ml-1 !px-3 !py-2 sm:ml-3 sm:!px-5 sm:!py-2.5`}><Youtube className="h-4 w-4" /><span className="hidden md:inline">Subscribe</span></a>
           <button onClick={() => setMenu(!menu)} aria-label="Menu" className="ml-1 rounded-full p-2 xl:hidden">{menu ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}</button>
         </div>
       </div>
       <AnimatePresence>
         {menu && (
-          <motion.nav initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden xl:hidden">
+          <motion.nav initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="max-h-[calc(100dvh-4.5rem)] overflow-y-auto bg-midnight xl:hidden">
             <div className="flex flex-col gap-1 px-6 pb-8 pt-4">
               {nav.map((n, i) => (
                 <motion.div key={n.to} initial={{ x: -20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: i * 0.04 }}>
-                  <Link to={n.to} className="block border-b border-gold/10 py-3 font-display text-2xl text-on-dark">{n.label}</Link>
+                  <Link to={n.to} className="flex items-center justify-between border-b border-gold/10 py-3.5 font-display text-2xl text-on-dark" activeProps={{ className: "!text-gold" }} activeOptions={{ exact: n.to === "/" }}>{n.label}<span className="text-sm text-gold/60">✦</span></Link>
                 </motion.div>
               ))}
-              <a href={YOUTUBE_URL} target="_blank" rel="noreferrer" className={`${goldBtn} mt-6`}>Subscribe on YouTube</a>
+              <a href={`${YOUTUBE_URL}?sub_confirmation=1`} target="_blank" rel="noreferrer" className={`${youtubeBtn} mt-6`}><Youtube className="h-4 w-4" />Subscribe on YouTube</a>
+              <div className="mt-4 grid grid-cols-2 gap-3 text-sm text-on-dark/80">
+                <Link to="/bookstore" className="flex items-center justify-center gap-2 rounded-full border border-gold/30 py-3"><Search className="h-4 w-4" />Search books</Link>
+                <button onClick={() => toast("Customer accounts are coming soon.")} className="flex items-center justify-center gap-2 rounded-full border border-gold/30 py-3"><User className="h-4 w-4" />Account</button>
+              </div>
             </div>
           </motion.nav>
         )}
@@ -136,15 +141,15 @@ export function Footer() {
   const [email, setEmail] = useState("");
   return (
     <footer className="bg-night text-on-dark">
-      <div className="mx-auto grid max-w-7xl gap-12 px-6 py-20 md:grid-cols-4">
-        <div className="md:col-span-2">
-          <Logo />
+      <div className="mx-auto grid max-w-7xl gap-10 px-6 py-16 sm:grid-cols-2 md:grid-cols-4 md:gap-12 md:py-20">
+        <div className="sm:col-span-2">
+          <Logo large />
           <p className="mt-6 max-w-sm text-sm text-on-dark/65">Sharing the love and message of Jesus Christ through prayers, Scripture, inspirational messages and Christian books.</p>
           <form
             className="mt-8 flex max-w-sm gap-2"
             onSubmit={(e) => { e.preventDefault(); toast("Newsletter sign-up will be activated soon. Thank you!"); setEmail(""); }}
           >
-            <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" required placeholder="Your email" className="flex-1 rounded-full border border-gold/30 bg-transparent px-5 py-3 text-sm placeholder:text-on-dark/40 focus:border-gold focus:outline-none" />
+            <input value={email} aria-label="Email address" onChange={(e) => setEmail(e.target.value)} type="email" required placeholder="Your email" className="min-w-0 flex-1 rounded-full border border-gold/30 bg-transparent px-5 py-3 text-sm placeholder:text-on-dark/40 focus:border-gold focus:outline-none" />
             <button className={`${goldBtn} !px-5`}>Join</button>
           </form>
         </div>
@@ -159,8 +164,9 @@ export function Footer() {
           <ul className="mt-5 space-y-2 text-sm text-on-dark/70">
             <li><Link to="/prayer-request" className="hover:text-gold">Prayer Request</Link></li>
             <li><Link to="/policies" className="hover:text-gold">Policies & Digital Downloads</Link></li>
-            <li><a href={YOUTUBE_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 hover:text-gold"><Youtube className="h-4 w-4" />YouTube</a></li>
+            <li><a href={YOUTUBE_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 hover:text-gold"><Youtube className="h-4 w-4 text-youtube" />YouTube</a></li>
           </ul>
+          <a href={`${YOUTUBE_URL}?sub_confirmation=1`} target="_blank" rel="noreferrer" className={`${youtubeBtn} mt-6 !px-5 !py-2.5`}><Youtube className="h-4 w-4" />Subscribe</a>
         </div>
       </div>
       <div className="border-t border-gold/15 py-6 text-center text-xs text-on-dark/50">© {new Date().getFullYear()} CHRIST HOPE · Faith • Hope • Love</div>

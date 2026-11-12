@@ -35,12 +35,12 @@ function BookPage() {
   return (
     <>
       <section className="bg-night pb-24 pt-36 text-on-dark">
-        <div className="mx-auto grid max-w-6xl items-center gap-16 px-6 md:grid-cols-2">
+        <div className="mx-auto grid max-w-6xl items-center gap-10 px-6 md:grid-cols-2 md:gap-16">
           <Reveal className="flex justify-center"><BookCover book={b} size="lg" /></Reveal>
           <Reveal delay={0.15}>
             <UnpublishedBadge />
             <p className="eyebrow mt-5 text-gold">{b.category}</p>
-            <h1 className="mt-3 text-5xl leading-tight md:text-6xl">{b.title}</h1>
+            <h1 className="mt-3 text-4xl leading-tight sm:text-5xl md:text-6xl">{b.title}</h1>
             <p className="mt-3 font-display text-2xl italic text-on-dark/75">{b.subtitle}</p>
             <p className="mt-2 text-sm text-on-dark/60">by {b.author}</p>
             <p className="mt-6 text-on-dark/80">{b.description}</p>
@@ -68,8 +68,8 @@ function BookPage() {
         </div>
       </section>
 
-      <section className="py-24">
-        <div className="mx-auto grid max-w-6xl gap-16 px-6 md:grid-cols-3">
+      <section className="py-16 md:py-24">
+        <div className="mx-auto grid max-w-6xl gap-10 px-6 md:grid-cols-3 md:gap-16">
           <Reveal>
             <h2 className="text-3xl">What you'll discover</h2>
             <ul className="mt-6 space-y-3 text-muted-foreground">{b.discover.map((d) => <li key={d} className="border-b pb-3">✦ {d}</li>)}</ul>
@@ -89,7 +89,7 @@ function BookPage() {
         </div>
       </section>
 
-      <section className="bg-secondary py-24">
+      <section className="bg-secondary py-16 md:py-24">
         <Reveal className="mx-auto max-w-3xl px-6 text-center">
           <p className="eyebrow text-royal">Inside this book</p>
           <h2 className="mt-4 text-4xl">A Sample Page</h2>
@@ -100,7 +100,7 @@ function BookPage() {
         </Reveal>
       </section>
 
-      <section className="py-24">
+      <section className="py-16 md:py-24">
         <div className="mx-auto max-w-6xl px-6">
           <h2 className="text-center text-4xl">You may also like</h2>
           <div className="mt-12 grid gap-8 md:grid-cols-3">{related.map((r) => <BookCard key={r.slug} book={r} />)}</div>
