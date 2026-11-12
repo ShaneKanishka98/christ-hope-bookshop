@@ -4,7 +4,7 @@
 - [x] Real logo (header, footer, home, browser tab)
 - [x] Mobile-friendly pass + YouTube-red Subscribe buttons
 - [ ] Banner image (blocked: user to upload file)
-- [ ] Lovable Cloud: accounts, "My Christ Hope Library", prayer requests, newsletter, contact storage (blocked: user approval)
+- [ ] Backend: accounts, "My Christ Hope Library", prayer requests, newsletter, contact storage (blocked: user approval)
 - [ ] Payments (Stripe) + webhooks, orders, secure expiring downloads (blocked: user approval, Pro plan)
 - [ ] Admin dashboard: books, orders, content, real sales stats (needs Cloud)
 - [ ] Amazon Kindle URLs/ASINs per book (blocked: real listings from user)

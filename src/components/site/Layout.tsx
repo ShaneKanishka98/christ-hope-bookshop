@@ -1,29 +1,31 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
-import { Menu, Search, ShoppingBag, User, X, Youtube, Trash2 } from "lucide-react";
+import { BookOpen, Menu, Search, ShoppingBag, User, X, Youtube, Trash2 } from "lucide-react";
+import { OPEN_COOKIE_SETTINGS } from "./CookieBanner";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useCart, money } from "@/lib/cart";
-import { getBook, YOUTUBE_URL } from "@/lib/content";
+import { getBook, SHOP_ENABLED, YOUTUBE_URL } from "@/lib/content";
 import { BookCover } from "./BookCover";
 import { goldBtn, youtubeBtn } from "./ui";
-import logo from "@/assets/christ-hope-logo.jpg.asset.json";
 
-const nav = [
+const allNav = [
   { to: "/", label: "Home" },
   { to: "/about", label: "About" },
   { to: "/prayers", label: "Daily Prayers" },
   { to: "/messages", label: "Jesus Messages" },
   { to: "/verses", label: "Bible Verses" },
+  { to: "/bible", label: "Holy Bible" },
   { to: "/bookstore", label: "Bookstore" },
   { to: "/videos", label: "Videos" },
   { to: "/contact", label: "Contact" },
 ] as const;
+const nav = allNav.filter((n) => SHOP_ENABLED || n.to !== "/bookstore");
 
 function Logo({ large = false }: { large?: boolean }) {
   return (
     <Link to="/" className="flex min-w-0 items-center gap-3" aria-label="CHRIST HOPE home">
-      <img src={logo.url} alt="CHRIST HOPE logo" width={176} height={176} className={`${large ? "h-16 w-16" : "h-10 w-10 sm:h-12 sm:w-12"} shrink-0 rounded-full gold-ring`} />
+      <img src="/logo.jpg" alt="CHRIST HOPE logo" width={176} height={176} className={`${large ? "h-16 w-16" : "h-10 w-10 sm:h-12 sm:w-12"} shrink-0 rounded-full gold-ring`} />
       <span className="min-w-0 leading-none">
         <span className="block truncate font-display text-[1.05rem] tracking-[0.1em] text-on-dark sm:text-xl sm:tracking-[0.16em]">CHRIST HOPE</span>
         <span className="mt-1 block truncate text-[0.5rem] tracking-[0.22em] text-gold sm:text-[0.55rem] sm:tracking-[0.35em]">FAITH • HOPE • LOVE</span>
@@ -58,9 +60,9 @@ export function Header() {
           ))}
         </nav>
         <div className="flex shrink-0 items-center gap-0.5 text-on-dark sm:gap-1">
-          <Link to="/bookstore" aria-label="Search books" className="hidden rounded-full p-2 hover:text-gold sm:inline-flex"><Search className="h-5 w-5" /></Link>
+          {SHOP_ENABLED && <Link to="/bookstore" aria-label="Search books" className="hidden rounded-full p-2 hover:text-gold sm:inline-flex"><Search className="h-5 w-5" /></Link>}
           <button onClick={() => toast("Customer accounts are coming soon.")} aria-label="Account" className="hidden rounded-full p-2 hover:text-gold sm:inline-flex"><User className="h-5 w-5" /></button>
-          <button onClick={() => setOpen(true)} aria-label="Cart" className="relative rounded-full p-2 hover:text-gold">
+          {SHOP_ENABLED && <button onClick={() => setOpen(true)} aria-label="Cart" className="relative rounded-full p-2 hover:text-gold">
             <ShoppingBag className="h-5 w-5" />
             <AnimatePresence>
               {count > 0 && (
@@ -69,7 +71,8 @@ export function Header() {
                 </motion.span>
               )}
             </AnimatePresence>
-          </button>
+          </button>}
+          <Link to="/bible" className="ml-2 hidden items-center gap-2 rounded-full border border-gold/70 bg-gold/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-gold-light transition-colors hover:bg-gold hover:text-midnight 2xl:inline-flex"><BookOpen className="h-4 w-4" />Read Bible</Link>
           <a href={`${YOUTUBE_URL}?sub_confirmation=1`} target="_blank" rel="noreferrer" aria-label="Subscribe on YouTube" className={`${youtubeBtn} ml-1 !px-3 !py-2 sm:ml-3 sm:!px-5 sm:!py-2.5`}><Youtube className="h-4 w-4" /><span className="hidden md:inline">Subscribe</span></a>
           <button onClick={() => setMenu(!menu)} aria-label="Menu" className="ml-1 rounded-full p-2 xl:hidden">{menu ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}</button>
         </div>
@@ -83,9 +86,10 @@ export function Header() {
                   <Link to={n.to} className="flex items-center justify-between border-b border-gold/10 py-3.5 font-display text-2xl text-on-dark" activeProps={{ className: "!text-gold" }} activeOptions={{ exact: n.to === "/" }}>{n.label}<span className="text-sm text-gold/60">✦</span></Link>
                 </motion.div>
               ))}
-              <a href={`${YOUTUBE_URL}?sub_confirmation=1`} target="_blank" rel="noreferrer" className={`${youtubeBtn} mt-6`}><Youtube className="h-4 w-4" />Subscribe on YouTube</a>
+              <Link to="/bible" className={`${goldBtn} mt-6`}><BookOpen className="h-4 w-4" />Read the Holy Bible</Link>
+              <a href={`${YOUTUBE_URL}?sub_confirmation=1`} target="_blank" rel="noreferrer" className={`${youtubeBtn} mt-3`}><Youtube className="h-4 w-4" />Subscribe on YouTube</a>
               <div className="mt-4 grid grid-cols-2 gap-3 text-sm text-on-dark/80">
-                <Link to="/bookstore" className="flex items-center justify-center gap-2 rounded-full border border-gold/30 py-3"><Search className="h-4 w-4" />Search books</Link>
+                {SHOP_ENABLED && <Link to="/bookstore" className="flex items-center justify-center gap-2 rounded-full border border-gold/30 py-3"><Search className="h-4 w-4" />Search books</Link>}
                 <button onClick={() => toast("Customer accounts are coming soon.")} className="flex items-center justify-center gap-2 rounded-full border border-gold/30 py-3"><User className="h-4 w-4" />Account</button>
               </div>
             </div>
@@ -163,7 +167,8 @@ export function Footer() {
           <p className="eyebrow text-gold">Ministry</p>
           <ul className="mt-5 space-y-2 text-sm text-on-dark/70">
             <li><Link to="/prayer-request" className="hover:text-gold">Prayer Request</Link></li>
-            <li><Link to="/policies" className="hover:text-gold">Policies & Digital Downloads</Link></li>
+            <li><button onClick={() => window.dispatchEvent(new Event(OPEN_COOKIE_SETTINGS))} className="hover:text-gold">Cookie settings</button></li>
+            <li><Link to="/policies" className="hover:text-gold">Policies{SHOP_ENABLED && " & Digital Downloads"}</Link></li>
             <li><a href={YOUTUBE_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 hover:text-gold"><Youtube className="h-4 w-4 text-youtube" />YouTube</a></li>
           </ul>
           <a href={`${YOUTUBE_URL}?sub_confirmation=1`} target="_blank" rel="noreferrer" className={`${youtubeBtn} mt-6 !px-5 !py-2.5`}><Youtube className="h-4 w-4" />Subscribe</a>

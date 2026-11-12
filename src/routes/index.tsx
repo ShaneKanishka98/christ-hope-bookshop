@@ -1,12 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
-import { ArrowRight, Youtube, Cross, Sunrise, Heart, BookOpen, HandHeart, Quote } from "lucide-react";
-import logo from "@/assets/christ-hope-logo.jpg.asset.json";
+import { ArrowRight, Youtube, Cross, Sunrise, Heart, BookOpen, BookMarked, HandHeart, Quote } from "lucide-react";
 import hero from "@/assets/hero-sunrise-cross.jpg";
 import prayerImg from "@/assets/prayer-light.jpg";
-import { books, prayers, messages, verseOfTheDay, YOUTUBE_URL } from "@/lib/content";
+import { books, prayers, messages, verseOfTheDay, YOUTUBE_URL, SHOP_ENABLED, shortVideos, miracleVideo } from "@/lib/content";
 import { BookCard, Reveal, SectionTitle, goldBtn, ghostBtn, navyBtn, youtubeBtn } from "@/components/site/ui";
 import { BookCover } from "@/components/site/BookCover";
+import { ShortsCarousel } from "@/components/site/ShortsCarousel";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -37,7 +37,7 @@ function Home() {
         <div className="relative mx-auto max-w-4xl px-5 pt-28 text-center sm:px-6">
           <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1.2 }} className="relative mx-auto mb-8 h-24 w-24 sm:h-28 sm:w-28">
             <div className="absolute -inset-10 rounded-full bg-glow animate-halo" />
-            <img src={logo.url} alt="CHRIST HOPE logo" width={176} height={176} className="relative h-full w-full rounded-full gold-ring animate-float" />
+            <img src="/logo.jpg" alt="CHRIST HOPE logo" width={176} height={176} className="relative h-full w-full rounded-full gold-ring animate-float" />
           </motion.div>
           <motion.p initial={{ opacity: 0, letterSpacing: "0.6em" }} animate={{ opacity: 1, letterSpacing: "0.32em" }} transition={{ duration: 1.6 }} className="eyebrow text-gold-light">
             Faith • Hope • Love
@@ -51,9 +51,11 @@ function Home() {
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, delay: 1.3 }} className="mx-auto mt-5 max-w-xl text-sm text-on-dark/80 sm:mt-6 sm:text-base">
             Discover daily prayers, inspiring messages, Scripture and beautiful Christian books created to bring faith, peace and hope into your life.
           </motion.p>
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 1.6 }} className="mx-auto mt-9 flex max-w-xs flex-col justify-center gap-3 sm:mt-10 sm:max-w-none sm:flex-row sm:gap-4">
-            <Link to="/about" className={goldBtn}>Explore Christ Hope</Link>
-            <Link to="/bookstore" className={ghostBtn}>Discover our Bookstore</Link>
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 1.6 }} className="mx-auto mt-9 flex max-w-xs flex-col justify-center gap-3 sm:mt-10 sm:max-w-none sm:flex-row sm:flex-wrap sm:gap-4">
+            <Link to="/bible" className={goldBtn}><BookOpen className="h-4 w-4" />Read the Holy Bible</Link>
+            <a href={`${YOUTUBE_URL}?sub_confirmation=1`} target="_blank" rel="noreferrer" className={youtubeBtn}><Youtube className="h-4 w-4" />Watch on YouTube</a>
+            <Link to="/about" className={ghostBtn}>Explore Christ Hope</Link>
+            {SHOP_ENABLED && <Link to="/bookstore" className={ghostBtn}>Discover our Bookstore</Link>}
           </motion.div>
         </div>
       </section>
@@ -70,14 +72,15 @@ function Home() {
       </section>
 
       {/* Pillars */}
-      <section className="relative -mt-px bg-midnight pb-16 text-on-dark md:pb-20">
-        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-3 px-4 sm:gap-4 sm:px-6 lg:grid-cols-4">
+      <section className="relative bg-midnight py-12 text-on-dark md:py-16">
+        <div className={`mx-auto grid max-w-6xl grid-cols-2 gap-3 px-4 sm:gap-4 sm:px-6 ${SHOP_ENABLED ? "lg:grid-cols-5" : "lg:grid-cols-4"}`}>
           {[
             { icon: HandHeart, title: "Daily Prayers", text: "Prayers for every season of life.", to: "/prayers" as const },
             { icon: Cross, title: "Jesus Messages", text: "Words that touch the heart.", to: "/messages" as const },
             { icon: Sunrise, title: "Bible Verses", text: "Scripture for every need.", to: "/verses" as const },
+            { icon: BookMarked, title: "Holy Bible", text: "Read all 66 books, free.", to: "/bible" as const },
             { icon: BookOpen, title: "Bookstore", text: "Books of faith and hope.", to: "/bookstore" as const },
-          ].map((c, i) => (
+          ].filter((c) => SHOP_ENABLED || c.to !== "/bookstore").map((c, i) => (
             <Reveal key={c.title} delay={i * 0.08}>
               <Link to={c.to} className="group flex h-full flex-col items-center rounded-xl border border-gold/20 bg-navy/60 px-4 py-6 text-center transition-all duration-500 hover:-translate-y-1 hover:border-gold/70 hover:bg-navy sm:py-8">
                 <span className="flex h-12 w-12 items-center justify-center rounded-full border border-gold/50 text-gold transition-colors group-hover:bg-gold group-hover:text-midnight sm:h-14 sm:w-14">
@@ -92,13 +95,59 @@ function Home() {
       </section>
 
       {/* Bookstore */}
-      <section className="py-16 md:py-28">
+      {SHOP_ENABLED && <section className="py-16 md:py-28">
         <div className="mx-auto max-w-7xl px-6">
           <SectionTitle eyebrow="Christ Hope Bookstore" title="Words of Faith. Books of Hope." text="Beautiful prayer books and Christian devotionals designed to inspire your heart and bring you closer to God." />
           <div className="mt-10 grid gap-6 sm:grid-cols-2 md:mt-16 md:gap-8 lg:grid-cols-4">
             {featured.map((b, i) => <Reveal key={b.slug} delay={i * 0.1}><BookCard book={b} /></Reveal>)}
           </div>
           <div className="mt-10 text-center md:mt-14"><Link to="/bookstore" className={navyBtn}>Browse all books <ArrowRight className="h-4 w-4" /></Link></div>
+        </div>
+      </section>}
+
+      {/* Holy Bible */}
+      <section className="relative overflow-hidden py-16 md:py-28">
+        <div className="mx-auto grid max-w-6xl items-center gap-10 px-6 md:grid-cols-2 md:gap-16">
+          <Reveal>
+            <p className="eyebrow text-royal">The Holy Bible</p>
+            <h2 className="mt-4 text-4xl sm:text-5xl">Read the Whole Bible, Free</h2>
+            <p className="mt-5 text-muted-foreground">All 66 books of the King James Version in one place. Pick a book, tap a chapter, then swipe from page to page — the next chapter opens automatically.</p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link to="/bible" className={navyBtn}>Open the Bible <ArrowRight className="h-4 w-4" /></Link>
+              <Link to="/bible/$book/$chapter" params={{ book: "john", chapter: "3" }} className="inline-flex items-center rounded-full border border-border px-6 py-3.5 text-xs font-semibold uppercase tracking-[0.2em] hover:border-gold">John 3</Link>
+            </div>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+              {[["Genesis", "genesis", "1"], ["Psalms", "psalms", "23"], ["Proverbs", "proverbs", "3"], ["Matthew", "matthew", "5"], ["John", "john", "1"], ["Romans", "romans", "8"]].map(([name, slug, ch]) => (
+                <Link key={slug} to="/bible/$book/$chapter" params={{ book: slug!, chapter: ch! }} className="group rounded-xl border border-border bg-card p-5 shadow-card transition-all hover:-translate-y-1 hover:border-gold/70 hover:shadow-gold">
+                  <BookMarked className="h-5 w-5 text-gold" strokeWidth={1.4} />
+                  <p className="mt-3 font-display text-xl">{name}</p>
+                  <p className="text-xs text-muted-foreground">Chapter {ch}</p>
+                </Link>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* YouTube */}
+      <section className="relative overflow-hidden bg-night py-16 text-on-dark md:py-24">
+        <div className="pointer-events-none absolute left-1/2 top-0 h-[26rem] w-[40rem] -translate-x-1/2 rounded-full bg-glow opacity-30" />
+        <div className="relative mx-auto max-w-7xl px-6">
+          <SectionTitle light eyebrow="From Our YouTube Channel" title="Watch & Be Encouraged" text="Prayers, miracles and daily encouragements from CHRIST HOPE Media." />
+          <Reveal className="mx-auto mt-10 max-w-4xl md:mt-14">
+            <div className="aspect-video w-full overflow-hidden rounded-xl border border-gold/30 bg-midnight shadow-gold">
+              <iframe src={`https://www.youtube-nocookie.com/embed/${miracleVideo}?rel=0`} title="Christian Miracles" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen referrerPolicy="strict-origin-when-cross-origin" className="h-full w-full" />
+            </div>
+            <p className="eyebrow mt-4 text-center text-gold">Christian Miracles</p>
+          </Reveal>
+          <h3 className="mt-14 text-center text-2xl sm:text-3xl">Daily Encouragements</h3>
+          <ShortsCarousel ids={shortVideos} />
+          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <a href={`${YOUTUBE_URL}?sub_confirmation=1`} target="_blank" rel="noreferrer" className={youtubeBtn}><Youtube className="h-4 w-4" />Subscribe on YouTube</a>
+            <Link to="/videos" className={ghostBtn}>See all videos</Link>
+          </div>
         </div>
       </section>
 

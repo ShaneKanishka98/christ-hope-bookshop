@@ -1,10 +1,12 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { SHOP_ENABLED } from "@/lib/content";
+import { redirect, createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Search } from "lucide-react";
 import { books, categories } from "@/lib/content";
 import { BookCard, PageHero, Reveal } from "@/components/site/ui";
 
 export const Route = createFileRoute("/bookstore/")({
+  beforeLoad: () => { if (!SHOP_ENABLED) throw redirect({ to: "/" }); },
   head: () => ({
     meta: [
       { title: "Christ Hope Bookstore — Prayer Books & Devotionals" },

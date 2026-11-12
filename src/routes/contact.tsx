@@ -3,6 +3,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Youtube } from "lucide-react";
 import { YOUTUBE_URL } from "@/lib/content";
+import { sendMessage } from "@/lib/send-message";
 import { PageHero, goldBtn } from "@/components/site/ui";
 
 export const Route = createFileRoute("/contact")({
@@ -21,21 +22,40 @@ const field = "w-full rounded-md border border-border bg-card px-4 py-3 focus:bo
 
 function Contact() {
   const [sent, setSent] = useState(false);
+  const [busy, setBusy] = useState(false);
   return (
     <>
       <PageHero eyebrow="Contact" title="We'd Love to Hear From You" />
       <section className="py-20">
         <div className="mx-auto grid max-w-5xl gap-16 px-6 md:grid-cols-2">
-          <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); setSent(true); toast("Thank you — message delivery will be activated soon."); }}>
-            <input required maxLength={100} placeholder="Your name" className={field} />
-            <input required type="email" maxLength={255} placeholder="Email address" className={field} />
-            <textarea required maxLength={2000} rows={6} placeholder="Your message" className={field} />
-            <button className={goldBtn} disabled={sent}>{sent ? "Received" : "Send message"}</button>
+          <form
+            className="space-y-4"
+            onSubmit={async (e) => {
+              e.preventDefault();
+              const f = new FormData(e.currentTarget);
+              setBusy(true);
+              try {
+                await sendMessage({ data: { kind: "contact", name: String(f.get("name") ?? ""), email: String(f.get("email") ?? ""), message: String(f.get("message") ?? ""), website: String(f.get("website") ?? "") } });
+                setSent(true);
+                toast.success("Thank you — your message has been sent.");
+              } catch {
+                toast.error("Sorry, we couldn't send your message. Please email info@christhopemedia.com.");
+              } finally {
+                setBusy(false);
+              }
+            }}
+          >
+            <input name="name" required maxLength={100} placeholder="Your name" className={field} />
+            <input name="email" required type="email" maxLength={255} placeholder="Email address" className={field} />
+            <textarea name="message" required maxLength={2000} rows={6} placeholder="Your message" className={field} />
+            <input name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
+            <button className={goldBtn} disabled={sent || busy}>{sent ? "Sent" : busy ? "Sending…" : "Send message"}</button>
           </form>
           <div className="space-y-6">
             <h2 className="text-3xl">Stay connected</h2>
             <p className="text-muted-foreground">Follow our daily prayers and messages on YouTube.</p>
-            <a href={YOUTUBE_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-royal hover:text-gold"><Youtube className="h-5 w-5" />@ChristHopeMediaOfficial</a>
+            <p><a href="mailto:info@christhopemedia.com" className="text-royal hover:text-gold">info@christhopemedia.com</a></p>
+            <a href={YOUTUBE_URL} target="_blank" rel="noreferrer" className="mt-3 inline-flex items-center gap-2 text-royal hover:text-gold"><Youtube className="h-5 w-5" />@ChristHopeMediaOfficial</a>
             <div className="rounded-lg bg-secondary p-6">
               <h3 className="text-2xl">Need prayer?</h3>
               <p className="mt-2 text-sm text-muted-foreground">Share a private prayer request with us.</p>

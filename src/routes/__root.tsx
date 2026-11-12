@@ -4,16 +4,18 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
   type ErrorComponentProps,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import type { ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
 import { CartProvider } from "@/lib/cart";
 import { Header, Footer, CartDrawer } from "@/components/site/Layout";
+import { CtaBand } from "@/components/site/CtaBand";
+import { CookieBanner } from "@/components/site/CookieBanner";
 import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
@@ -41,9 +43,6 @@ function NotFoundComponent() {
 function ErrorComponent({ error, reset }: ErrorComponentProps) {
   console.error(error);
   const router = useRouter();
-  useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
-  }, [error]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -120,6 +119,8 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const path = useRouterState({ select: (st) => st.location.pathname });
+  const onBible = path === "/bible" || path.startsWith("/bible/");
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -129,8 +130,10 @@ function RootComponent() {
         <main>
           <Outlet />
         </main>
+        {!onBible && <CtaBand />}
         <Footer />
         <CartDrawer />
+        <CookieBanner />
         <Toaster />
       </CartProvider>
     </QueryClientProvider>

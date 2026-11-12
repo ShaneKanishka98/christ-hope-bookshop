@@ -3,6 +3,8 @@ import hero from "@/assets/hero-sunrise-cross.jpg";
 import { Youtube } from "lucide-react";
 import { messages, YOUTUBE_URL } from "@/lib/content";
 import { PageHero, Reveal } from "@/components/site/ui";
+import { MessageArt } from "@/components/site/MessageArt";
+import { ListenButton } from "@/components/site/Listen";
 
 export const Route = createFileRoute("/messages")({
   head: () => ({
@@ -24,15 +26,17 @@ function Messages() {
         <div className="mx-auto grid max-w-6xl gap-8 px-6 md:grid-cols-2">
           {messages.map((m, i) => (
             <Reveal key={m.title} delay={(i % 2) * 0.08}>
-              <div className="group h-full overflow-hidden rounded-lg bg-card">
-                <div className="relative flex aspect-video items-end bg-night p-8 text-on-dark">
-                  <img src={hero} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover opacity-35 transition-transform duration-700 group-hover:scale-105" />
-                  <h2 className="relative text-4xl">{m.title}</h2>
+              <div className="group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card shadow-card transition-all duration-500 hover:-translate-y-1 hover:shadow-gold">
+                <div className="relative aspect-video overflow-hidden bg-night text-on-dark">
+                  <MessageArt index={i} className="absolute inset-0 h-full w-full transition-transform duration-1000 group-hover:scale-110" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-midnight/85 via-midnight/20 to-transparent" />
+                  <span className="absolute left-5 top-5 rounded-full border border-gold/60 bg-midnight/40 px-3 py-1 text-[0.65rem] tracking-[0.25em] text-gold-light backdrop-blur">{m.ref}</span>
+                  <h2 className="absolute inset-x-0 bottom-0 p-6 text-3xl leading-tight drop-shadow sm:p-8 sm:text-4xl">{m.title}</h2>
                 </div>
-                <div className="p-8">
-                  <p className="text-muted-foreground">{m.text}</p>
-                  <p className="mt-2 text-sm tracking-widest text-royal">{m.ref}</p>
-                  <div className="mt-6 flex flex-wrap gap-5 text-sm">
+                <div className="flex flex-1 flex-col p-6 sm:p-8">
+                  <p className="font-display text-xl italic text-muted-foreground">“{m.text}”</p>
+                  <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm">
+                    <ListenButton text={`${m.title}. ${m.text} ${m.ref}.`} />
                     <Link to="/prayers/$slug" params={{ slug: m.prayer }} className="eyebrow text-royal hover:text-gold">Related prayer →</Link>
                     <a href={YOUTUBE_URL} target="_blank" rel="noreferrer" className="eyebrow inline-flex items-center gap-1 text-royal hover:text-gold"><Youtube className="h-4 w-4" />Watch on YouTube</a>
                   </div>

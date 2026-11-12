@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import prayerImg from "@/assets/prayer-light.jpg";
-import { getBook, getPrayer } from "@/lib/content";
+import { getBook, getPrayer, SHOP_ENABLED, prayerImage } from "@/lib/content";
+import { ListenButton } from "@/components/site/Listen";
 import { BookCard, CopyShare, PageHero, Reveal } from "@/components/site/ui";
 
 export const Route = createFileRoute("/prayers/$slug")({
@@ -24,22 +25,30 @@ export const Route = createFileRoute("/prayers/$slug")({
 
 function PrayerPage() {
   const p = Route.useLoaderData();
-  const related = p.related.map(getBook).filter((b) => !!b);
+  const related = SHOP_ENABLED ? p.related.map(getBook).filter((b) => !!b) : [];
   return (
     <>
       <PageHero eyebrow={p.category} title={p.title} image={prayerImg} />
       <article className="py-20">
         <div className="mx-auto max-w-2xl px-6">
           <Reveal>
+            <img src={prayerImage(p.slug)} alt={`Jesus — ${p.category}`} width={820} height={660} className="mb-8 aspect-[5/4] w-full rounded-xl object-cover object-top shadow-gold sm:aspect-[16/10]" />
+            <div className="mb-8 flex flex-wrap items-center gap-3 rounded-full border border-gold/30 bg-secondary px-4 py-3">
+              <ListenButton text={`${p.title}. ${p.text} ${p.verse}. ${p.ref}.`} label="Listen to this prayer" />
+              <span className="text-xs text-muted-foreground">Read aloud in a calm voice</span>
+            </div>
             <p className="font-display text-2xl leading-relaxed md:text-3xl">{p.text}</p>
-            <div className="mt-12 border-l-2 border-gold pl-6">
-              <p className="font-display text-xl italic">“{p.verse}”</p>
-              <p className="mt-2 text-sm tracking-widest text-royal">{p.ref} · NIV</p>
+            <div className="mt-12 rounded-xl border-l-4 border-gold bg-secondary p-6 sm:p-8">
+              <p className="font-display text-xl italic sm:text-2xl">“{p.verse}”</p>
+              <p className="mt-3 text-sm tracking-widest text-royal">{p.ref} · NIV</p>
             </div>
             <div className="mt-10"><CopyShare title={p.title} text={`${p.title}\n\n${p.text}\n\n“${p.verse}” — ${p.ref}`} /></div>
           </Reveal>
         </div>
       </article>
+      {!SHOP_ENABLED && (
+        <div className="pb-20 text-center"><Link to="/prayers" className="eyebrow text-royal">← All prayers</Link></div>
+      )}
       {related.length > 0 && (
         <section className="bg-secondary py-20">
           <div className="mx-auto max-w-5xl px-6 text-center">

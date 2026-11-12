@@ -218,3 +218,14 @@ export const verseOfTheDay = () => {
   const day = Math.floor(Date.now() / 86400000);
   return verses[day % verses.length] ?? verses[0]!;
 };
+
+// Set to true to show the bookstore, cart, prices and checkout again.
+export const SHOP_ENABLED = false;
+
+// YouTube embeds
+export const shortVideos = ["U58tDSuelHE", "w2JsVewVcj4", "Kr5qGRqXaDA", "oQWl77JqwHI", "1n2LkeOYmQU", "qAgtKXREqSk", "n3xO-mLJNyE", "y8Dvjhz5k7w", "mz6TGSxWIqs"];
+export const miracleVideo = "mZanUmYXBy8";
+
+// Jesus images (public/jesus/jesus-1.jpg … jesus-6.jpg), cycled across prayers.
+export const jesusImage = (index: number) => `/jesus/jesus-${(index % 6) + 1}.jpg`;
+export const prayerImage = (slug: string) => jesusImage(Math.max(0, prayers.findIndex((p) => p.slug === slug)));

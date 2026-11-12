@@ -1,4 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { SHOP_ENABLED } from "@/lib/content";
+import { redirect, createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Trash2, Lock } from "lucide-react";
 import { useCart, money } from "@/lib/cart";
@@ -7,6 +8,7 @@ import { BookCover } from "@/components/site/BookCover";
 import { goldBtn, navyBtn } from "@/components/site/ui";
 
 export const Route = createFileRoute("/cart")({
+  beforeLoad: () => { if (!SHOP_ENABLED) throw redirect({ to: "/" }); },
   head: () => ({
     meta: [
       { title: "Your Bag — Christ Hope Bookstore" },

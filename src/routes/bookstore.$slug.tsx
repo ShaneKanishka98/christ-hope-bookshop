@@ -1,4 +1,5 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { SHOP_ENABLED } from "@/lib/content";
+import { redirect, createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
 import { ShoppingBag, ExternalLink } from "lucide-react";
 import { books, getBook } from "@/lib/content";
@@ -7,6 +8,7 @@ import { BookCover } from "@/components/site/BookCover";
 import { BookCard, Reveal, UnpublishedBadge, goldBtn } from "@/components/site/ui";
 
 export const Route = createFileRoute("/bookstore/$slug")({
+  beforeLoad: () => { if (!SHOP_ENABLED) throw redirect({ to: "/" }); },
   loader: ({ params }) => {
     const book = getBook(params.slug);
     if (!book) throw notFound();

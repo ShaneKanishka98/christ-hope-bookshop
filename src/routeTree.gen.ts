@@ -18,10 +18,12 @@ import { Route as PoliciesRouteImport } from './routes/policies'
 import { Route as PrayerRequestRouteImport } from './routes/prayer-request'
 import { Route as VersesRouteImport } from './routes/verses'
 import { Route as VideosRouteImport } from './routes/videos'
+import { Route as BibleIndexRouteImport } from './routes/bible.index'
 import { Route as BookstoreIndexRouteImport } from './routes/bookstore.index'
 import { Route as BookstoreSlugRouteImport } from './routes/bookstore.$slug'
 import { Route as PrayersIndexRouteImport } from './routes/prayers.index'
 import { Route as PrayersSlugRouteImport } from './routes/prayers.$slug'
+import { Route as BibleBookChapterRouteImport } from './routes/bible.$book.$chapter'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -68,6 +70,11 @@ const VideosRoute = VideosRouteImport.update({
   path: '/videos',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BibleIndexRoute = BibleIndexRouteImport.update({
+  id: '/bible/',
+  path: '/bible/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BookstoreIndexRoute = BookstoreIndexRouteImport.update({
   id: '/bookstore/',
   path: '/bookstore/',
@@ -88,6 +95,11 @@ const PrayersSlugRoute = PrayersSlugRouteImport.update({
   path: '/prayers/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BibleBookChapterRoute = BibleBookChapterRouteImport.update({
+  id: '/bible/$book/$chapter',
+  path: '/bible/$book/$chapter',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -101,8 +113,10 @@ export interface FileRoutesByFullPath {
   '/videos': typeof VideosRoute
   '/bookstore/$slug': typeof BookstoreSlugRoute
   '/prayers/$slug': typeof PrayersSlugRoute
+  '/bible/': typeof BibleIndexRoute
   '/bookstore/': typeof BookstoreIndexRoute
   '/prayers/': typeof PrayersIndexRoute
+  '/bible/$book/$chapter': typeof BibleBookChapterRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -116,8 +130,10 @@ export interface FileRoutesByTo {
   '/videos': typeof VideosRoute
   '/bookstore/$slug': typeof BookstoreSlugRoute
   '/prayers/$slug': typeof PrayersSlugRoute
+  '/bible': typeof BibleIndexRoute
   '/bookstore': typeof BookstoreIndexRoute
   '/prayers': typeof PrayersIndexRoute
+  '/bible/$book/$chapter': typeof BibleBookChapterRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -132,8 +148,10 @@ export interface FileRoutesById {
   '/videos': typeof VideosRoute
   '/bookstore/$slug': typeof BookstoreSlugRoute
   '/prayers/$slug': typeof PrayersSlugRoute
+  '/bible/': typeof BibleIndexRoute
   '/bookstore/': typeof BookstoreIndexRoute
   '/prayers/': typeof PrayersIndexRoute
+  '/bible/$book/$chapter': typeof BibleBookChapterRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -149,8 +167,10 @@ export interface FileRouteTypes {
     | '/videos'
     | '/bookstore/$slug'
     | '/prayers/$slug'
+    | '/bible/'
     | '/bookstore/'
     | '/prayers/'
+    | '/bible/$book/$chapter'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -164,8 +184,10 @@ export interface FileRouteTypes {
     | '/videos'
     | '/bookstore/$slug'
     | '/prayers/$slug'
+    | '/bible'
     | '/bookstore'
     | '/prayers'
+    | '/bible/$book/$chapter'
   id:
     | '__root__'
     | '/'
@@ -179,8 +201,10 @@ export interface FileRouteTypes {
     | '/videos'
     | '/bookstore/$slug'
     | '/prayers/$slug'
+    | '/bible/'
     | '/bookstore/'
     | '/prayers/'
+    | '/bible/$book/$chapter'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -195,8 +219,10 @@ export interface RootRouteChildren {
   VideosRoute: typeof VideosRoute
   BookstoreSlugRoute: typeof BookstoreSlugRoute
   PrayersSlugRoute: typeof PrayersSlugRoute
+  BibleIndexRoute: typeof BibleIndexRoute
   BookstoreIndexRoute: typeof BookstoreIndexRoute
   PrayersIndexRoute: typeof PrayersIndexRoute
+  BibleBookChapterRoute: typeof BibleBookChapterRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -264,6 +290,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VideosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/bible/': {
+      id: '/bible/'
+      path: '/bible'
+      fullPath: '/bible/'
+      preLoaderRoute: typeof BibleIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/bookstore/': {
       id: '/bookstore/'
       path: '/bookstore'
@@ -292,6 +325,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrayersSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/bible/$book/$chapter': {
+      id: '/bible/$book/$chapter'
+      path: '/bible/$book/$chapter'
+      fullPath: '/bible/$book/$chapter'
+      preLoaderRoute: typeof BibleBookChapterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -307,8 +347,10 @@ const rootRouteChildren: RootRouteChildren = {
   VideosRoute: VideosRoute,
   BookstoreSlugRoute: BookstoreSlugRoute,
   PrayersSlugRoute: PrayersSlugRoute,
+  BibleIndexRoute: BibleIndexRoute,
   BookstoreIndexRoute: BookstoreIndexRoute,
   PrayersIndexRoute: PrayersIndexRoute,
+  BibleBookChapterRoute: BibleBookChapterRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
